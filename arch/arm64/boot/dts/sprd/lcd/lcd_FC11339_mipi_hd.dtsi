@@ -1,0 +1,98 @@
+
+/*
+ * R61350 Truly LCD config dtsi file for spreadtrum
+ *
+ * Copyright (C) 2018, Spreadtrum Communications Inc.
+ *
+ * SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ */
+
+/ { lcds {
+	lcd_FC11339_mipi_hd: lcd_FC11339_mipi_hd {
+
+		sprd,dsi-work-mode = <1>; /* video burst mode*/
+		sprd,dsi-lane-number = <2>;
+		sprd,dsi-color-format = "rgb888";
+
+		sprd,phy-bit-clock = <350000>;	/* kbps */
+		sprd,phy-escape-clock = <10000>;/* kHz */
+
+		sprd,width-mm = <70>;
+		sprd,height-mm = <52>;
+
+		sprd,esd-check-enable = <0>;
+		sprd,esd-check-mode = <0>;
+		sprd,esd-check-period = <1000>;
+		sprd,esd-check-register = <0x0A>;
+		sprd,esd-check-value = <0x9C>;
+
+		sprd,reset-on-sequence = <1 20>, <0 20>, <1 20>;
+		sprd,reset-off-sequence = <0 20>;
+
+		sprd,use-dcs-write;
+		sprd,initial-command = [
+	/*  1*/		29 01 00 04 B9 F1 12 83	// Set EXTC
+	/*  2*/		29 01 00 1C BA 31 81 05 F9 0E 0E 20 00 00 00 00 00 00 00 44 25 00 91 0A 00 00 02 4F D1 00 00 37 // Set DSI
+	/*  3*/		22 01 00 02 b8 26 // Set ECP	
+	/*  4*/		29 01 00 04 BF 02 11 00 // Set PCR
+	/*  5*/		29 01 00 0B B3 0C 10 0A 50 03 FF 00 00 00 00 // Set RGB
+	/*  6*/		29 01 00 0A C0 73 73 50 50 00 00 08 70 00 // Set SCR
+	/*  7*/		22 01 00 02 BC 46 // Set VDC
+	/*  8*/		22 01 00 02 CC 0B // Set Panel
+	/*  9*/		22 01 00 02 B4 80 // Set Panel Inversion
+	/* 10*/		29 01 00 04 B2 00 13 F0 // Set RSO
+	/* 11*/		29 01 00 0F E3 07 07 0B 0B 02 02 00 00 00 00 FF 80 C0 10 // Set EQ
+	/* 12*/		29 01 00 0D C1 53 00 1E 1E 77 E1 CC DD 67 77 33 33 // Set Power                                                                                  
+	/* 13*/		29 01 00 03 B5 10 10 // Set BGP
+	/* 14*/		29 01 00 03 B6 6c 7c // Set VCOM
+	/* 15*/		29 01 00 40 E9 08 00 0E 00 00 B0 B1 11 31 23 28 10 B0 B1 27 08 00 04 02 00 00 00 00 04 02 00 00 00 88 88 BA 60 24 08 88 88 88 88 88 88 88 BA 71 35 18 88 88 88 88 88 00 00 00 01 00 00 00 00 00 00 00 00 00 // Set GIP
+	/* 16*/		29 01 00 3E EA 97 0A 82 02 13 07 00 00 00 00 00 00 80 88 BA 17 53 88 88 88 88 88 88 81 88 BA 06 42 88 88 88 88 88 88 23 10 00 02 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 // Set GIP2
+	/* 17*/		29 01 00 23 E0 00 07 0B 27 2D 3F 3B 37 05 0A 0B 0F 11 0F 12 12 18 00 07 0B 27 2D 3F 3B 37 05 0A 0B 0F 11 0F 12 12 18 // Set Gamma
+	/* 18*/		05 78 00 01 11 // Sleep Out DelayX1ms(150);
+	/* 19*/		05 32 00 01 29 // Display On DelayX1ms(50);
+			];
+
+		sprd,sleep-in-command = [
+			15 32 00 01 28 // Sleep In
+			15 96 00 01 10 // Display Off
+			];
+
+		sprd,sleep-out-command = [
+	/*  1*/		29 01 00 04 B9 F1 12 83	// Set EXTC
+	/*  2*/		29 01 00 1C BA 31 81 05 F9 0E 0E 20 00 00 00 00 00 00 00 44 25 00 91 0A 00 00 02 4F D1 00 00 37 // Set DSI
+	/*  3*/		22 01 00 02 b8 76 // Set ECP	
+	/*  4*/		29 01 00 04 BF 02 11 00 // Set PCR
+	/*  5*/		29 01 00 0B B3 0C 10 0A 50 03 FF 00 00 00 00 // Set RGB
+	/*  6*/		29 01 00 0A C0 73 73 50 50 00 00 08 70 00 // Set SCR
+	/*  7*/		22 01 00 02 BC 46 // Set VDC
+	/*  8*/		22 01 00 02 CC 0B // Set Panel
+	/*  9*/		22 01 00 02 B4 80 // Set Panel Inversion
+	/* 10*/		29 01 00 04 B2 00 13 F0 // Set RSO
+	/* 11*/		29 01 00 0F E3 07 07 0B 0B 03 0B 00 00 00 00 FF 00 C0 10 // Set EQ
+	/* 12*/		29 01 00 0D C1 73 00 1E 1E 77 E1 CC DD 67 77 33 33 // Set Power                                                                                  
+	/* 13*/		29 01 00 03 B5 10 10 // Set BGP
+	/* 14*/		29 01 00 03 B6 80 7C // Set VCOM
+	/* 15*/		29 01 00 40 E9 08 00 0E 00 00 B0 B1 11 31 23 28 10 B0 B1 27 08 00 04 02 00 00 00 00 04 02 00 00 00 88 88 BA 60 24 08 88 88 88 88 88 88 88 BA 71 35 18 88 88 88 88 88 00 00 00 01 00 00 00 00 00 00 00 00 00 // Set GIP
+	/* 16*/		29 01 00 3E EA 97 0A 82 02 13 07 00 00 00 00 00 00 80 88 BA 17 53 88 88 88 88 88 88 81 88 BA 06 42 88 88 88 88 88 88 23 10 00 02 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 // Set GIP2
+	/* 17*/		29 01 00 23 E0 00 07 0B 27 2D 3F 3B 37 05 0A 0B 0F 11 0F 12 12 18 00 07 0B 27 2D 3F 3B 37 05 0A 0B 0F 11 0F 12 12 18 // Set Gamma
+	/* 18*/		05 78 00 01 11 // Sleep Out DelayX1ms(150);
+	/* 19*/		05 32 00 01 29 // Display On DelayX1ms(50);
+	// 15 78 00 01 11
+	// 15 32 00 01 29
+			];
+
+		display-timings {
+			timing0 {
+				clock-frequency = <25000000>; // 25MHz
+				hactive = <640>;
+				vactive = <480>;
+				hback-porch = <62>;
+				hfront-porch = <44>;
+				hsync-len = <30>;
+				vback-porch = <13>;
+				vfront-porch = <17>;
+				vsync-len = <5>;
+			};
+		};
+	};
+};};

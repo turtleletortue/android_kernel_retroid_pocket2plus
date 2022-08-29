@@ -1,0 +1,3 @@
+config TOUCHSCREEN_CST3XX
+	bool "cst1xx for touchscreen"
+	default n
